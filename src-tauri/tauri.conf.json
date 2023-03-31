@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "jp.co.uniquex.chatgpt-desktop-hub",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
