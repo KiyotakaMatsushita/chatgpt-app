@@ -1,5 +1,5 @@
 import { IconRefresh } from '@tabler/icons-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import { FC } from 'react';
 
 interface Props {

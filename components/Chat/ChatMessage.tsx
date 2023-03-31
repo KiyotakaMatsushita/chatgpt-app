@@ -1,6 +1,6 @@
 import { Message } from '@/types/chat';
 import { IconCheck, IconCopy, IconEdit } from '@tabler/icons-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import { FC, memo, useEffect, useRef, useState } from 'react';
 import rehypeMathjax from 'rehype-mathjax';
 import remarkGfm from 'remark-gfm';

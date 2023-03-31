@@ -8,7 +8,7 @@ import {
   IconMessagesOff,
   IconPlus,
 } from '@tabler/icons-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import { FC, useEffect, useState } from 'react';
 import { ChatFolders } from '../Folders/Chat/ChatFolders';
 import { Search } from '../Sidebar/Search';

@@ -18,7 +18,7 @@ specifiers:
   eventsource-parser: ^0.1.0
   i18next: ^22.4.13
   next: 13.2.4
-  next-i18next: ^13.2.2
+  react-i18next: ^13.2.2
   openai: ^3.2.1
   postcss: ^8.4.21
   prettier: ^2.8.7
@@ -43,7 +43,7 @@ dependencies:
   eventsource-parser: 0.1.0
   i18next: 22.4.13
   next: 13.2.4_biqbaboplfbrettd7655fr4n2y
-  next-i18next: 13.2.2_dt4g7v76vmr3y5vqc353t2czpa
+  react-i18next: 13.2.2_dt4g7v76vmr3y5vqc353t2czpa
   openai: 3.2.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3340,7 +3340,7 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-i18next/13.2.2_dt4g7v76vmr3y5vqc353t2czpa:
+  /react-i18next/13.2.2_dt4g7v76vmr3y5vqc353t2czpa:
     resolution: {integrity: sha512-t0WU6K+HJoq2nVQ0n6OiiEZja9GyMqtDSU74FmOafgk4ljns+iZ18bsNJiI8rOUXfFfkW96ea1N7D5kbMyT+PA==}
     engines: {node: '>=14'}
     peerDependencies:

@@ -1,6 +1,6 @@
 import { SupportedExportFormats } from '@/types/export';
 import { IconFileExport, IconMoon, IconSun } from '@tabler/icons-react';
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
 import { FC } from 'react';
 import { Import } from '../Settings/Import';
 import { Key } from '../Settings/Key';
