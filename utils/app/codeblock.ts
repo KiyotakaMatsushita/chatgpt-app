@@ -32,7 +32,7 @@ export const programmingLanguages: languageMap = {
 export const generateRandomString = (length: Number, lowercase = false) => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXY3456789'; // excluding similar looking characters like Z, 2, I, 1, O, 0
   let result = '';
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < Number(length); i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return lowercase ? result.toLowerCase() : result;
