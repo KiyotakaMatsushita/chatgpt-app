@@ -1,38 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ChatGPT App
 
-## Getting Started
+Welcome to the ChatGPT App repository! This application allows you to interact with OpenAI's powerful GPT model on your local desktop, leveraging the power of Next.js in SSG mode and Tauri to create a secure, user-friendly experience. The user interface of this application is inspired by and created with reference to the [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui) repository.
 
-First, run the development server:
+## Features
+
+- Local desktop application, ensuring data privacy
+- Built with Next.js Static Site Generation (SSG) for enhanced performance
+- Utilizes your OpenAI API key for access to the GPT model
+- Developed using Tauri, a lightweight framework for creating cross-platform applications
+- Ensures data is not sent to servers other than OpenAI
+- Designed with security in mind
+- User interface inspired by the [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui) project
+
+## Installation
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+git clone https://github.com/KiyotakaMatsushita/chatgpt-app.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Change the current working directory to the repository folder:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd chatgpt-app
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Install the dependencies using pnpm:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Start the development server:
 
-## Learn More
+```bash
+pnpm tauri dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Build the Tauri application:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm tauri build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+Once the application is built, launch the ChatGPT App executable in the src-tauri/target directory. You can now interact with the powerful GPT model on your local desktop, ensuring your data remains secure and private.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+We welcome contributions to the ChatGPT App repository! If you find a bug or would like to suggest a new feature, please create an issue or submit a pull request.
+
+## License
+
+The ChatGPT App is released under the MIT License.
