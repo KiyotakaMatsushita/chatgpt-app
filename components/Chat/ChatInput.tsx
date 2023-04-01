@@ -313,16 +313,16 @@ export const ChatInput: FC<Props> = ({
       </div>
       <div className="px-3 pb-3 pt-2 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pb-6 md:pt-3">
         <a
-          href="https://github.com/KiyotakaMatsushita/chatgpt-desktop-hub"
+          href="https://github.com/KiyotakaMatsushita/chatgpt-app"
           target="_blank"
           rel="noreferrer"
           className="underline"
         >
-          ChatGPT Desktop Hub
+          ChatGPT App
         </a>
         .{' '}
         {t(
-          "ChatGPT Desktop Hub is an advanced chatbot kit for OpenAI's chat models aiming to mimic ChatGPT's interface and functionality.",
+          "ChatGPT App is an advanced chatbot kit for OpenAI's chat models aiming to mimic ChatGPT's interface and functionality.",
         )}
       </div>
     </div>

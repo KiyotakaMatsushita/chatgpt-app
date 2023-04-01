@@ -8,7 +8,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "chatgpt-desktop-hub",
+    "productName": "ChatGPT App",
     "version": "0.1.0"
   },
   "tauri": {
@@ -30,8 +30,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "jp.co.uniquex.chatgpt-desktop-hub",
-      "longDescription": "",
+      "identifier": "com.kiyotakamatsushita.chatgpt",
+      "longDescription": "ChatGPT Desktop Application",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -59,7 +59,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "ChatGPT Desktop Hub",
+        "title": "ChatGPT App",
         "width": 800
       }
     ]
