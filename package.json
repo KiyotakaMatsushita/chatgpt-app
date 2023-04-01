@@ -1,7 +1,6 @@
 {
   "name": "chatgpt-app",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +10,23 @@
     "format": "prettier --write .",
     "test": "vitest",
     "coverage": "vitest run --coverage"
+  },
+  "license": "MIT",
+  "author": "KiyotakaMatsushita <kiyotaka.86@gmail.com>",
+  "keywords": [
+    "chatgpt",
+    "app",
+    "desktop",
+    "tauri",
+    "macos",
+    "linux",
+    "windows"
+  ],
+  "homepage": "https://github.com/KiyotakaMatsushita/chatgpt-app",
+  "bugs": "https://github.com/KiyotakaMatsushita/chatgpt-app/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KiyotakaMatsushita/chatgpt-app"
   },
   "dependencies": {
     "@dqbd/tiktoken": "^1.0.2",
