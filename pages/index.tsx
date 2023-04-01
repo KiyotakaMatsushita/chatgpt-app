@@ -34,6 +34,13 @@ import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { invoke } from '@tauri-apps/api/tauri';
+import { NewChatOpenAIClient } from '@/lib/chatter';
+import {
+  HumanChatMessage,
+  AIChatMessage,
+  SystemChatMessage,
+} from 'langchain/schema';
+import { NewOpenAIClient } from '@/lib/openai';
 
 // Note: When working with Next.js in development you have 2 execution contexts:
 // - The server (nodejs), where Tauri cannot be reached, because the current context is inside of nodejs.
@@ -117,28 +124,30 @@ const Home: React.FC<HomeProps> = ({
       };
 
       const controller = new AbortController();
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: controller.signal,
-        body: JSON.stringify(chatBody),
+
+      const messages = updatedConversation.messages.map((message) => {
+        if (message.role === 'assistant') {
+          return new AIChatMessage(message.content);
+        } else {
+          return new HumanChatMessage(message.content);
+        }
       });
 
-      if (!response.ok) {
-        setLoading(false);
-        setMessageIsStreaming(false);
-        return;
-      }
+      const client = NewChatOpenAIClient(apiKey);
 
-      const data = response.body;
+      const response = await client.call([
+        new SystemChatMessage(updatedConversation.prompt),
+        ...messages,
+      ]);
 
-      if (!data) {
-        setLoading(false);
-        setMessageIsStreaming(false);
-        return;
-      }
+      const updatedMessages: Message[] = [...updatedConversation.messages];
+
+      updatedMessages.push({ role: 'assistant', content: response.text });
+
+      updatedConversation = {
+        ...updatedConversation,
+        messages: updatedMessages,
+      };
 
       if (updatedConversation.messages.length === 1) {
         const { content } = message;
@@ -152,60 +161,7 @@ const Home: React.FC<HomeProps> = ({
       }
 
       setLoading(false);
-
-      const reader = data.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      let isFirst = true;
-      let text = '';
-
-      while (!done) {
-        if (stopConversationRef.current === true) {
-          controller.abort();
-          done = true;
-          break;
-        }
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        const chunkValue = decoder.decode(value);
-
-        text += chunkValue;
-
-        if (isFirst) {
-          isFirst = false;
-          const updatedMessages: Message[] = [
-            ...updatedConversation.messages,
-            { role: 'assistant', content: chunkValue },
-          ];
-
-          updatedConversation = {
-            ...updatedConversation,
-            messages: updatedMessages,
-          };
-
-          setSelectedConversation(updatedConversation);
-        } else {
-          const updatedMessages: Message[] = updatedConversation.messages.map(
-            (message, index) => {
-              if (index === updatedConversation.messages.length - 1) {
-                return {
-                  ...message,
-                  content: text,
-                };
-              }
-
-              return message;
-            },
-          );
-
-          updatedConversation = {
-            ...updatedConversation,
-            messages: updatedMessages,
-          };
-
-          setSelectedConversation(updatedConversation);
-        }
-      }
+      setSelectedConversation(updatedConversation);
 
       saveConversation(updatedConversation);
 
@@ -228,6 +184,7 @@ const Home: React.FC<HomeProps> = ({
       saveConversations(updatedConversations);
 
       setMessageIsStreaming(false);
+      controller.abort();
     }
   };
 
@@ -245,29 +202,22 @@ const Home: React.FC<HomeProps> = ({
       ],
     } as ErrorMessage;
 
-    const response = await fetch('/api/models', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        key,
-      }),
-    });
+    const client = NewOpenAIClient(apiKey);
 
-    if (!response.ok) {
-      try {
-        const data = await response.json();
-        Object.assign(error, {
-          code: data.error?.code,
-          messageLines: [data.error?.message],
-        });
-      } catch (e) {}
-      setModelError(error);
-      return;
-    }
+    const response = await client.listModels();
 
-    const data = await response.json();
+    const data: OpenAIModel[] = response.data.data
+      .map((model: any) => {
+        for (const [key, value] of Object.entries(OpenAIModelID)) {
+          if (value === model.id) {
+            return {
+              id: model.id,
+              name: OpenAIModels[value].name,
+            };
+          }
+        }
+      })
+      .filter(Boolean) as OpenAIModel[];
 
     if (!data) {
       setModelError(error);
