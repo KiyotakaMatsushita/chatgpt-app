@@ -202,30 +202,30 @@ const Home: React.FC<HomeProps> = ({
       ],
     } as ErrorMessage;
 
-    const client = NewOpenAIClient(apiKey);
+    try {
+      const client = NewOpenAIClient(apiKey);
 
-    const response = await client.listModels();
+      const response = await client.listModels();
 
-    const data: OpenAIModel[] = response.data.data
-      .map((model: any) => {
-        for (const [key, value] of Object.entries(OpenAIModelID)) {
-          if (value === model.id) {
-            return {
-              id: model.id,
-              name: OpenAIModels[value].name,
-            };
+      const data: OpenAIModel[] = response.data.data
+        .map((model: any) => {
+          for (const [key, value] of Object.entries(OpenAIModelID)) {
+            if (value === model.id) {
+              return {
+                id: model.id,
+                name: OpenAIModels[value].name,
+              };
+            }
           }
-        }
-      })
-      .filter(Boolean) as OpenAIModel[];
-
-    if (!data) {
+        })
+        .filter(Boolean) as OpenAIModel[];
+      setModels(data);
+      setModelError(null);
+    } catch (err) {
       setModelError(error);
+      console.error(err);
       return;
     }
-
-    setModels(data);
-    setModelError(null);
   };
 
   // BASIC HANDLERS --------------------------------------------
