@@ -33,6 +33,12 @@ import { useTranslation } from 'react-i18next';
 import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { invoke } from '@tauri-apps/api/tauri';
+
+// Note: When working with Next.js in development you have 2 execution contexts:
+// - The server (nodejs), where Tauri cannot be reached, because the current context is inside of nodejs.
+// - The client (webview), where it is possible to interact with the Tauri rust backend.
+// To check if we are currently executing in the client context, we can check the type of the window object;
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -44,6 +50,10 @@ const Home: React.FC<HomeProps> = ({
   defaultModelId,
 }) => {
   const { t } = useTranslation('chat');
+
+  useEffect(() => {
+    invoke('greet', { name: 'World' }).then(console.log).catch(console.error);
+  }, []);
 
   // STATE ----------------------------------------------
 
@@ -757,7 +767,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       serverSideApiKeyIsSet: !!process.env.OPENAI_API_KEY,
       defaultModelId,
-      locale: locale ?? 'en',
     },
   };
 };

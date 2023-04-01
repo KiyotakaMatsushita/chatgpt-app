@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 import '@/i18n';
+import { withTranslation } from 'react-i18next';
 import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 
@@ -13,4 +14,4 @@ function App({ Component, pageProps }: AppProps<{}>) {
   );
 }
 
-export default App;
+export default withTranslation()(App);
