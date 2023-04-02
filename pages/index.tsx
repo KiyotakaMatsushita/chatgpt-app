@@ -133,7 +133,7 @@ const Home: React.FC<HomeProps> = ({
         }
       });
 
-      const client = NewChatOpenAIClient(apiKey);
+      const client = NewChatOpenAIClient(apiKey, updatedConversation.model);
 
       const response = await client.call([
         new SystemChatMessage(updatedConversation.prompt),
