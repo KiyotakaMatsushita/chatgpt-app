@@ -2,6 +2,9 @@
 
 Welcome to the ChatGPT App repository! This application allows you to interact with OpenAI's powerful GPT model on your local desktop, leveraging the power of Next.js in SSG mode and Tauri to create a secure, user-friendly experience. The user interface of this application is inspired by and created with reference to the [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui) repository.
 
+![CleanShot 2023-04-02 at 14 40 02](https://user-images.githubusercontent.com/6897406/229333851-31cb7bd4-52be-4d89-a7db-fb2d025f5701.gif)
+
+
 ## Features
 
 - Local desktop application, ensuring data privacy
