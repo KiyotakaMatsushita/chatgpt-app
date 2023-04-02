@@ -5,8 +5,9 @@ type Props = DocumentProps & {
 };
 
 export default function Document(props: Props) {
+  const lang = props.__NEXT_DATA__.locale || 'en';
   return (
-    <Html>
+    <Html lang={lang}>
       <Head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="ChatGPT App"></meta>

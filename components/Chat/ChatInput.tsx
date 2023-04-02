@@ -121,32 +121,43 @@ export const ChatInput: FC<Props> = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    const isEnter = e.key === 'Enter';
+    const isTab = e.key === 'Tab';
+    const isArrowUp = e.key === 'ArrowUp';
+    const isArrowDown = e.key === 'ArrowDown';
+    const isEscape = e.key === 'Escape';
+    const isCommand = e.metaKey || e.ctrlKey;
+
+    const updateActivePromptIndex = (
+      callback: (prevIndex: number) => number,
+    ) => {
+      e.preventDefault();
+      setActivePromptIndex(callback);
+    };
+
     if (showPromptList) {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setActivePromptIndex((prevIndex) =>
+      if (isArrowDown) {
+        updateActivePromptIndex((prevIndex) =>
           prevIndex < prompts.length - 1 ? prevIndex + 1 : prevIndex,
         );
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setActivePromptIndex((prevIndex) =>
+      } else if (isArrowUp) {
+        updateActivePromptIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex,
         );
-      } else if (e.key === 'Tab') {
-        e.preventDefault();
-        setActivePromptIndex((prevIndex) =>
+      } else if (isTab) {
+        updateActivePromptIndex((prevIndex) =>
           prevIndex < prompts.length - 1 ? prevIndex + 1 : 0,
         );
-      } else if (e.key === 'Enter') {
+      } else if (isEnter) {
         e.preventDefault();
         handleInitModal();
-      } else if (e.key === 'Escape') {
+      } else if (isEscape) {
         e.preventDefault();
         setShowPromptList(false);
       } else {
         setActivePromptIndex(0);
       }
-    } else if (e.key === 'Enter' && !isTyping && !isMobile() && !e.shiftKey) {
+    } else if (isEnter && isCommand && !isTyping && !isMobile()) {
       e.preventDefault();
       handleSend();
     }
