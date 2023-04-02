@@ -203,7 +203,7 @@ const Home: React.FC<HomeProps> = ({
     } as ErrorMessage;
 
     try {
-      const client = NewOpenAIClient(apiKey);
+      const client = NewOpenAIClient(key);
 
       const response = await client.listModels();
 
