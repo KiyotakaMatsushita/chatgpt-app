@@ -41,6 +41,7 @@ import {
   SystemChatMessage,
 } from 'langchain/schema';
 import { NewOpenAIClient } from '@/lib/openai';
+import { CallbackManager } from 'langchain/callbacks';
 
 // Note: When working with Next.js in development you have 2 execution contexts:
 // - The server (nodejs), where Tauri cannot be reached, because the current context is inside of nodejs.
@@ -116,13 +117,6 @@ const Home: React.FC<HomeProps> = ({
       setLoading(true);
       setMessageIsStreaming(true);
 
-      const chatBody: ChatBody = {
-        model: updatedConversation.model,
-        messages: updatedConversation.messages,
-        key: apiKey,
-        prompt: updatedConversation.prompt,
-      };
-
       const controller = new AbortController();
 
       const messages = updatedConversation.messages.map((message) => {
@@ -133,7 +127,53 @@ const Home: React.FC<HomeProps> = ({
         }
       });
 
-      const client = NewChatOpenAIClient(apiKey, updatedConversation.model);
+      let reply = '';
+      let isFirst = true;
+
+      const client = NewChatOpenAIClient({
+        apiKey,
+        model: updatedConversation.model,
+        callbackManager: CallbackManager.fromHandlers({
+          async handleLLMNewToken(token: string) {
+            console.log({ token });
+            reply += token;
+
+            if (isFirst) {
+              isFirst = false;
+              const updatedMessages: Message[] = [
+                ...updatedConversation.messages,
+                { role: 'assistant', content: reply },
+              ];
+
+              updatedConversation = {
+                ...updatedConversation,
+                messages: updatedMessages,
+              };
+
+              setSelectedConversation(updatedConversation);
+            } else {
+              const updatedMessages: Message[] =
+                updatedConversation.messages.map((message, index) => {
+                  if (index === updatedConversation.messages.length - 1) {
+                    return {
+                      ...message,
+                      content: reply,
+                    };
+                  }
+
+                  return message;
+                });
+
+              updatedConversation = {
+                ...updatedConversation,
+                messages: updatedMessages,
+              };
+
+              setSelectedConversation(updatedConversation);
+            }
+          },
+        }),
+      });
 
       const response = await client.call([
         new SystemChatMessage(updatedConversation.prompt),
@@ -142,47 +182,13 @@ const Home: React.FC<HomeProps> = ({
 
       const updatedMessages: Message[] = [...updatedConversation.messages];
 
-      updatedMessages.push({ role: 'assistant', content: response.text });
-
       updatedConversation = {
         ...updatedConversation,
         messages: updatedMessages,
       };
 
-      if (updatedConversation.messages.length === 1) {
-        const { content } = message;
-        const customName =
-          content.length > 30 ? content.substring(0, 30) + '...' : content;
-
-        updatedConversation = {
-          ...updatedConversation,
-          name: customName,
-        };
-      }
-
-      setLoading(false);
       setSelectedConversation(updatedConversation);
-
       saveConversation(updatedConversation);
-
-      const updatedConversations: Conversation[] = conversations.map(
-        (conversation) => {
-          if (conversation.id === selectedConversation.id) {
-            return updatedConversation;
-          }
-
-          return conversation;
-        },
-      );
-
-      if (updatedConversations.length === 0) {
-        updatedConversations.push(updatedConversation);
-      }
-
-      setConversations(updatedConversations);
-
-      saveConversations(updatedConversations);
-
       setMessageIsStreaming(false);
       controller.abort();
     }
@@ -353,10 +359,8 @@ const Home: React.FC<HomeProps> = ({
 
     setSelectedConversation(newConversation);
     setConversations(updatedConversations);
-
     saveConversation(newConversation);
     saveConversations(updatedConversations);
-
     setLoading(false);
   };
 
