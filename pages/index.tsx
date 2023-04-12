@@ -135,7 +135,6 @@ const Home: React.FC<HomeProps> = ({
         model: updatedConversation.model,
         callbackManager: CallbackManager.fromHandlers({
           async handleLLMNewToken(token: string) {
-            console.log({ token });
             reply += token;
 
             if (isFirst) {
@@ -564,7 +563,7 @@ const Home: React.FC<HomeProps> = ({
     }
 
     const selectedConversation = localStorage.getItem('selectedConversation');
-    if (selectedConversation) {
+    if (selectedConversation && selectedConversation !== 'undefined') {
       const parsedSelectedConversation: Conversation =
         JSON.parse(selectedConversation);
       const cleanedSelectedConversation = cleanSelectedConversation(
