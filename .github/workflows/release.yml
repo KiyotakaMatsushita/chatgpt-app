@@ -15,10 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -37,7 +33,7 @@ jobs:
           allowUpdates: true
           draft: true
           makeLatest: true
-          name: ChatGPT-App-${{ steps.vars.outputs.tag }}
+          name: ChatGPT-App-${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
 
