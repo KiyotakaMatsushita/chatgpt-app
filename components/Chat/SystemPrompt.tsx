@@ -128,6 +128,7 @@ export const SystemPrompt: FC<Props> = ({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    const isCommand = e.metaKey || e.ctrlKey;
     if (showPromptList) {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
@@ -144,7 +145,7 @@ export const SystemPrompt: FC<Props> = ({
         setActivePromptIndex((prevIndex) =>
           prevIndex < prompts.length - 1 ? prevIndex + 1 : 0,
         );
-      } else if (e.key === 'Enter') {
+      } else if (e.key === 'Enter' && isCommand) {
         e.preventDefault();
         handleInitModal();
       } else if (e.key === 'Escape') {

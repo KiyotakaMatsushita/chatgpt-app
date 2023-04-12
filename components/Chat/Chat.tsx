@@ -17,7 +17,6 @@ import {
 } from 'react';
 import { Spinner } from '../Global/Spinner';
 import { ChatInput } from './ChatInput';
-import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
 import { ModelSelect } from './ModelSelect';
@@ -284,9 +283,6 @@ export const Chat: FC<Props> = memo(
                       onEditMessage={onEditMessage}
                     />
                   ))}
-
-                  {loading && <ChatLoader />}
-
                   <div
                     className="h-[162px] bg-white dark:bg-[#343541]"
                     ref={messagesEndRef}
